@@ -3,55 +3,99 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css" />
-    <title>Funcionários — Assim Saúde</title>
+
+    <title>MedCore — Funcionários</title>
+
+    <!-- =========================
+         ESTILO AÇÕES (IGUAL PACIENTES)
+    ========================= -->
+    <style>
+      td.acoes {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .btn-acao {
+        border: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      /* ✏️ EDITAR */
+      .btn-acao.editar {
+        background-color: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .btn-acao.editar:hover {
+        background-color: #bbdefb;
+        transform: scale(1.1);
+      }
+
+      /* 🗑️ EXCLUIR */
+      .btn-acao.excluir {
+        background-color: #ffebee;
+        color: #d32f2f;
+      }
+
+      .btn-acao.excluir:hover {
+        background-color: #ffcdd2;
+        transform: scale(1.1);
+      }
+
+          /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+
+
+    </style>
   </head>
 
   <body>
+    <!-- HEADER -->
     <header class="container header">
-      <div class="brand">Assim Saúde <span class="sub">Sistema</span></div>
+      <div class="brand">MedCore  <span class="sub">Sistema</span></div>
       <button id="nav-toggle" aria-label="Abrir menu">☰</button>
+
       <nav class="nav" aria-label="Navegação principal">
         <a href="../index.html">Home</a>
         <a href="cargo.html">Cadastro de Cargos</a>
         <a href="funcionario.html" class="active">Cadastro de Funcionários</a>
-        <a href="relatorio.html">Relatório</a>
+        <a href="paciente.html">Cadastro de Pacientes</a>
+        <a href="consulta.html">Consultas</a>
+        <a href="auditoria.html">Auditoria</a>
       </nav>
     </header>
 
+    <!-- CONTEÚDO -->
     <main class="container">
       <a class="small" href="../index.html">← Voltar</a>
       <h1>Funcionários</h1>
 
-      <div class="card">
-        <div class="search-bar">
-          <input id="search_nome" type="text" placeholder="Pesquisar por nome..." />
-          <input id="search_cpf" type="text" placeholder="Pesquisar por CPF..." />
-          <button class="btn btn-secondary" id="btn_search">Pesquisar</button>
-          <button class="btn btn-primary" id="btn_new">Novo</button>
-        </div>
-
-        <div class="table-wrapper card" style="padding:0;">
-          <table id="tabela_funcionarios">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Telefone</th>
-                <th>Cargo</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+      <!-- FORMULÁRIO -->
       <section class="card">
         <h2>Detalhes</h2>
+
         <form id="form_funcionario">
           <input type="hidden" id="func_id" />
 
@@ -83,7 +127,7 @@
 
             <div class="form-group">
               <label for="telefone">Telefone</label>
-              <input id="telefone" type="text"/>
+              <input id="telefone" type="text" />
             </div>
 
             <div class="form-group">
@@ -98,11 +142,45 @@
           </div>
         </form>
       </section>
-      
-     <!-- RODAPÉ -->
-      <footer class="footer">© 2025 Assim Saúde — Sistema desenvolvido por Rodrigo Ferreira</footer>
+
+      <!-- BUSCA + TABELA -->
+      <section class="card">
+        <div class="search-bar">
+          <input id="search_nome" type="text" placeholder="Pesquisar por nome..." />
+          <input id="search_cpf" type="text" placeholder="Pesquisar por CPF..." />
+          <button class="btn btn-secondary" id="btn_search">Pesquisar</button>
+          <button class="btn btn-primary" id="btn_new">Novo</button>
+        </div>
+
+        <div class="table-wrapper card" style="padding:0;">
+          <table id="tabela_funcionarios">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>Endereço</th>
+                <th>CPF</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Cargo</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- preenchido via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- RODAPÉ -->
+      <footer class="footer">
+      © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+      </footer>
     </main>
 
+    <!-- SCRIPTS -->
     <script src="../js/nav.js"></script>
     <script src="../js/config.js"></script>
     <script src="../js/funcionario.js"></script>

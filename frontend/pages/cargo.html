@@ -3,19 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cargos - Assim Saúde</title>
+  <title>MedCore — Cargos</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/styles.css" />
+  <style>
+    .sem-dados {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-style: italic;
+    }
+
+        /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <header class="container header">
-    <div class="brand">Assim Saúde <span class="sub">Sistema</span></div>
+    <div class="brand">MedCore <span class="sub">Sistema</span></div>
     <button id="nav-toggle" aria-label="Abrir menu">☰</button>
     <nav class="nav" aria-label="Navegação principal">
-      <a href="../index.html">Home</a>
-      <a href="cargo.html">Cadastro de Cargos</a>
-      <a href="funcionario.html">Cadastro de Funcionários</a>
-      <a href="relatorio.html">Relatório</a>
+        <a href="../index.html">Home</a>
+        <a href="cargo.html"class="active">Cadastro de Cargos</a>
+        <a href="funcionario.html">Cadastro de Funcionários</a>
+        <a href="paciente.html">Cadastro de Pacientes</a>
+        <a href="consulta.html">Consultas</a>
+        <a href="Auditoria.html">Auditoria</a>
     </nav>
   </header>
 
@@ -23,26 +45,7 @@
     <a class="small" href="../index.html">← Voltar</a>
     <h1>Cargos</h1>
 
-    <div class="card">
-        <div class="search-bar">
-          <input id="search_nome" type="text" class="search-input" placeholder="Pesquisar por nome..." />
-          <div class="actions">
-            <button id="btn_search" class="btn btn-secondary">Pesquisar</button>
-            <button id="btn_new" class="btn btn-primary">Novo</button>
-          </div>
-        </div>
-
-
-      <div class="table-wrapper card" style="padding:0;">
-        <table id="tabela_cargos">
-          <thead>
-            <tr><th>ID</th><th>Nome</th><th>Salário</th><th>Descrição</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
+    <!-- 🔼 FORMULÁRIO EM CIMA -->
     <section class="card">
       <h2>Detalhes</h2>
       <form id="form_cargo">
@@ -51,19 +54,23 @@
             <label for="cargo_id">ID</label>
             <input id="cargo_id" type="text" readonly />
           </div>
+
           <div class="form-group" style="flex:1;">
-            <label for="nome">Nome*</label>
+            <label for="nome">Nome do cargo*</label>
             <input id="nome" type="text" />
           </div>
+
           <div class="form-group" style="max-width:200px;">
             <label for="salario">Salário*</label>
             <input id="salario" type="number" step="0.01" />
           </div>
+
           <div class="form-group" style="flex-basis:100%;">
             <label for="descricao">Descrição</label>
             <textarea id="descricao"></textarea>
           </div>
         </div>
+
         <div style="margin-top:12px;">
           <button id="btn_save" type="submit" class="btn btn-primary">Salvar</button>
           <button id="btn_delete" type="button" class="btn btn-secondary">Excluir</button>
@@ -72,8 +79,41 @@
       </form>
     </section>
 
+    <!-- 🔽 BUSCA + TABELA EMBAIXO -->
+    <div class="card">
+      <div class="search-bar">
+        <input
+          id="search_nome"
+          type="text"
+          class="search-input"
+          placeholder="Pesquisar por nome..."
+        />
+        <div class="actions">
+          <button id="btn_search" class="btn btn-secondary">Pesquisar</button>
+          <button id="btn_new" class="btn btn-primary">Novo</button>
+        </div>
+      </div>
+
+      <div class="table-wrapper card" style="padding:0;">
+        <table id="tabela_cargos">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome do cargo</th>
+              <th>Salário</th>
+              <th>Descrição</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- RODAPÉ -->
-    <footer class="footer">© 2025 Assim Saúde — Sistema desenvolvido por Rodrigo Ferreira</footer>
+    <footer class="footer">
+            © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+    </footer>
   </main>
 
   <!-- Scripts -->

@@ -5,31 +5,47 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/styles.css">
+  <style>
+    /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+  </style>
   <script defer src="./js/nav.js"></script>
-  <title>Assim Saúde — Início</title>
+  <title>MedCore — Início</title>
 </head>
 
 <body>
   <header class="container header">
-    <div class="brand">Assim Saúde <span class="sub">Sistema</span></div>
+    <div class="brand">MedCore  <span class="sub">Sistema</span></div>
     <button id="nav-toggle" aria-label="Abrir menu">☰</button>
 
     <nav class="nav" aria-label="Navegação principal">
       <a href="index.html" class="active">Home</a>
       <a href="./pages/cargo.html">Cadastro de Cargos</a>
       <a href="./pages/funcionario.html">Cadastro de Funcionários</a>
-      <a href="./pages/relatorio.html">Relatório</a>
+      <a href="./pages/paciente.html">Cadastro de Pacientes</a>
+      <a href="./pages/consulta.html">Consultas</a>
+      <a href="./pages/auditoria.html">Auditoria</a>
     </nav>
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="container dashboard">
     <section class="intro">
-      <h1>Bem-vindo ao Sistema Assim Saúde</h1>
-      <p>Gerencie cargos, funcionários e relatórios de forma prática e organizada.</p>
+      <h1>Bem-vindo ao Sistema MedCore </h1>
+      <p>Gerencie cargos, funcionários, pacientes e consultas de forma prática e organizada.</p>
     </section>
 
     <section class="cards-grid">
+
       <a href="./pages/cargo.html" class="card dash-card">
         <div class="icon">💼</div>
         <h2>Cargos</h2>
@@ -44,16 +60,41 @@
         <span class="btn-link">Acessar →</span>
       </a>
 
-      <a href="./pages/relatorio.html" class="card dash-card">
+      <a href="./pages/paciente.html" class="card dash-card">
+        <div class="icon">🧑‍⚕️</div>
+        <h2>Pacientes</h2>
+        <p>Gerencie o cadastro de pacientes do sistema.</p>
+        <span class="btn-link">Acessar →</span>
+      </a>
+
+      <a href="./pages/consulta.html" class="card dash-card">
+        <div class="icon">📅</div>
+        <h2>Consultas</h2>
+        <p>Agende, visualize e acompanhe consultas médicas.</p>
+        <span class="btn-link">Acessar →</span>
+      </a>
+
+      <a href="./pages/auditoria.html" class="card dash-card">
         <div class="icon">📊</div>
         <h2>Relatórios</h2>
         <p>Visualize e exporte dados completos do sistema.</p>
         <span class="btn-link">Acessar →</span>
       </a>
+
+      <!-- NOVO CARD: SUPORTE & CRÉDITOS -->
+      <a href="./pages/creditos.html" class="card dash-card">
+        <div class="icon">🛠️</div>
+        <h2>Suporte & Créditos</h2>
+        <p>Informações do desenvolvedor e suporte técnico.</p>
+        <span class="btn-link">Ver mais →</span>
+      </a>
+
     </section>
 
     <!-- RODAPÉ -->
-    <footer class="footer">© 2025 Assim Saúde — Sistema desenvolvido por Rodrigo Ferreira</footer>
+    <footer class="footer">
+      © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+    </footer>
   </main>
 </body>
 </html>

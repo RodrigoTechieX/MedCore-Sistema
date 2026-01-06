@@ -11,7 +11,7 @@ CORS(app)  #permite chamadas no front
 DB_HOST = os.environ.get('DB_HOST', 'db')       # padrão 'db' (quando Flask estiver em outro container)
 DB_USER = os.environ.get('DB_USER', 'root')
 DB_PASS = os.environ.get('DB_PASS', 'root')
-DB_NAME = os.environ.get('DB_NAME', 'assim_saude')
+DB_NAME = os.environ.get('DB_NAME', 'medcore')
 DB_PORT = int(os.environ.get('DB_PORT', 3306))
 
 def get_conn():

@@ -1,11 +1,11 @@
 services:
   db:
     image: mysql:8.0
-    container_name: assim_db
+    container_name: medcore_db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: assim_saude
+      MYSQL_DATABASE: medcore
     volumes:
       - db_data:/var/lib/mysql
       - ./database/script.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -19,12 +19,12 @@ services:
 
   backend:
     build: ./backend
-    container_name: assim_backend
+    container_name: medcore_backend
     restart: unless-stopped
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: assim_saude
+      DB_NAME: medcore
       DB_USER: root
       DB_PASSWORD: root
       FLASK_APP: app.py
@@ -48,7 +48,7 @@ services:
 
   frontend:
     image: nginx:alpine
-    container_name: assim_frontend
+    container_name: medcore_frontend
     restart: unless-stopped
     volumes:
       - ./frontend:/usr/share/nginx/html:ro

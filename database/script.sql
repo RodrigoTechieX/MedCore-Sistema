@@ -1,8 +1,8 @@
 -- cria DB (se ainda não existir)
-CREATE DATABASE IF NOT EXISTS assim_saude
+CREATE DATABASE IF NOT EXISTS medcore
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
-USE assim_saude;
+USE medcore;
 
 -- cargos
 CREATE TABLE IF NOT EXISTS cargos (
@@ -27,6 +27,29 @@ CREATE TABLE IF NOT EXISTS funcionarios (
   FOREIGN KEY (cargo_id) REFERENCES cargos(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE TABLE pacientes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    cpf TEXT NOT NULL,
+    nascimento DATE,
+    telefone TEXT,
+    email TEXT,
+    consulta TEXT NOT NULL,
+    data_consulta DATE NOT NULL,
+    hora_consulta TIME NOT NULL
+);
+
+CREATE TABLE consultas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    paciente TEXT NOT NULL,
+    consulta TEXT NOT NULL,
+    data DATE NOT NULL,
+    hora TIME NOT NULL,
+    status TEXT DEFAULT 'Agendada'
+);
+
+
+
 -- relatorios
 CREATE TABLE IF NOT EXISTS relatorios (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,6 +62,17 @@ CREATE TABLE IF NOT EXISTS relatorios (
 -- índices
 CREATE INDEX idx_funcionarios_nome ON funcionarios(nome);
 CREATE INDEX idx_cargos_nome ON cargos(nome);
+
+CREATE TABLE auditoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    usuario VARCHAR(100),
+    modulo VARCHAR(100),
+    acao VARCHAR(20),
+    detalhes TEXT
+);
+
+
 
 
 

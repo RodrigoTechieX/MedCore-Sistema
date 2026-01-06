@@ -87,6 +87,13 @@ h2{ font-size:20px; margin:0 0 12px; }
   border:1px solid #f0f3f6;
 }
 
+.sem-dados {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+  font-style: italic;
+}
+
 
 /* table */
 .table-wrapper{ overflow-x:auto; border-radius:8px; }
@@ -160,6 +167,18 @@ textarea{ min-height:80px; resize:vertical; }
   width: 100%;
   max-width: 320px;
 }
+
+.status-select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.status-select option[value="Agendada"] { color: #2563eb; }
+.status-select option[value="Confirmada"] { color: #16a34a; }
+.status-select option[value="Realizada"] { color: #15803d; }
+.status-select option[value="Cancelada"] { color: #dc2626; }
+
 
 /* Contador nos cards (badge) */
 .count-badge{
@@ -257,6 +276,28 @@ textarea{ min-height:80px; resize:vertical; }
   display: flex;
   gap: 8px;
 }
+
+input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background-color: #eef4ff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* focus igual aos outros */
+input[type="time"]:focus {
+  border-color: #5b5bf0;
+  background-color: #fff;
+}
+
 
 
 /* BOTÃO DE ACESSO */

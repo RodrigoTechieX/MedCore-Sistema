@@ -1,168 +1,206 @@
+let FUNCIONARIOS_CACHE = [];
 
-if(!window.API_URL){
-  var el = document.createElement('script'); el.src = "../js/config.js"; document.head.appendChild(el);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const API_FUNC = `${API_URL}/funcionarios`;
+  const API_CARGOS = `${API_URL}/cargos`;
 
-const tabelaBody = document.querySelector('#tabela_funcionarios tbody');
-const searchNome = document.getElementById('search_nome');
-const searchCpf = document.getElementById('search_cpf');
-const btnSearch = document.getElementById('btn_search');
-const btnNew = document.getElementById('btn_new');
-const form = document.getElementById('form_funcionario');
+  const tabelaBody = document.querySelector("#tabela_funcionarios tbody");
+  const form = document.getElementById("form_funcionario");
 
-async function fetchCargos(){
-  const res = await fetch(`${API_URL}/cargos`);
-  return res.json();
-}
-async function fetchFuncionarios(nome='', cpf=''){
-  const res = await fetch(`${API_URL}/funcionarios?nome=${encodeURIComponent(nome)}&cpf=${encodeURIComponent(cpf)}`);
-  return res.json();
-}
+  const idInput = document.getElementById("func_id");
+  const nome = document.getElementById("nome");
+  const cpf = document.getElementById("cpf");
+  const dataNascimento = document.getElementById("data_nascimento");
+  const endereco = document.getElementById("endereco");
+  const email = document.getElementById("email");
+  const telefone = document.getElementById("telefone");
+  const cargoSelect = document.getElementById("cargo_id");
 
-function renderFuncionarios(funcs){
-  tabelaBody.innerHTML = '';
-  funcs.forEach(f=>{
-    const tr = document.createElement('tr');
-    // adiciona data-id para facilitar achar a linha depois
-    tr.dataset.id = f.id;
-    tr.innerHTML = `<td>${f.id}</td><td>${f.nome}</td><td>${f.cpf}</td><td>${f.telefone||''}</td><td>${f.cargo_nome||''}</td>`;
-    // quando clicar, preenche o formulário com o objeto f
-    tr.addEventListener('click', () => fillForm(f));
-    tabelaBody.appendChild(tr);
-  });
-}
+  const searchNome = document.getElementById("search_nome");
+  const searchCpf = document.getElementById("search_cpf");
+  const btnSearch = document.getElementById("btn_search");
+  const btnNew = document.getElementById("btn_new");
 
-
-function fillForm(f){
-  document.getElementById('func_id').value = f.id;
-  document.getElementById('nome').value = f.nome;
-  document.getElementById('data_nascimento').value = f.data_nascimento || '';
-  document.getElementById('endereco').value = f.endereco || '';
-  document.getElementById('cpf').value = f.cpf;
-  document.getElementById('email').value = f.email || '';
-  document.getElementById('telefone').value = f.telefone || '';
-  document.getElementById('cargo_id').value = f.cargo_id;
-}
-
-
-async function loadCargosIntoSelect(){
-  const cargos = await fetchCargos();
-  const sel = document.getElementById('cargo_id');
-  sel.innerHTML = '';
-  cargos.forEach(c=>{
-    const opt = document.createElement('option');
-    opt.value = c.id; opt.text = c.nome;
-    sel.appendChild(opt);
-  });
-}
-
-btnSearch.onclick = async ()=>{
-  const res = await fetchFuncionarios(searchNome.value, searchCpf.value);
-  renderFuncionarios(res);
-};
-
-btnNew.onclick = ()=>{
-  form.reset(); document.getElementById('func_id').value = '';
-};
-
-form.onsubmit = async (e) => {
-  e.preventDefault();
-
-  const payload = {
-    nome: document.getElementById('nome').value.trim(),
-    data_nascimento: document.getElementById('data_nascimento').value || null,
-    endereco: document.getElementById('endereco').value.trim(),
-    cpf: document.getElementById('cpf').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    telefone: document.getElementById('telefone').value.trim(),
-    cargo_id: document.getElementById('cargo_id').value || null
-  };
-
-  const id = document.getElementById('func_id').value;
-  const submitBtn = form.querySelector('button[type="submit"]');
-  submitBtn.disabled = true;
-  submitBtn.textContent = id ? 'Salvando...' : 'Criando...';
-
-  try {
-    const url = id ? `${API_URL}/funcionarios/${id}` : `${API_URL}/funcionarios`;
-    const method = id ? 'PUT' : 'POST';
-
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.erro || data.error || 'Erro ao salvar');
-
+  // ==============================
+  // FORMATAR DATA (dd/mm/aaaa)
+  // ==============================
+  function formatarData(data) {
+    if (!data) return "-";
     
-    if (id) {
-      const tr = tabelaBody.querySelector(`tr[data-id="${id}"]`);
-      if (tr) {
-        const tds = tr.querySelectorAll('td');
-        // tds[0] = id, tds[1] = nome, tds[2] = cpf, tds[3] = telefone, tds[4] = cargo_nome
-        tds[1].textContent = payload.nome;
-        tds[2].textContent = payload.cpf;
-        tds[3].textContent = payload.telefone || '';
-        // pega o texto do select (nome do cargo)
-        tds[4].textContent = (document.getElementById('cargo_id').selectedOptions[0] || {}).text || '';
-      }
+    // Se a data já estiver no formato DD/MM/AAAA, retorna como está
+    if (typeof data === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(data)) {
+      return data;
     }
 
-    // Recarrega a tabela 
-    btnSearch.click();
+    // Tenta converter para objeto Date
+    const d = new Date(data);
+    if (!isNaN(d.getTime())) {
+      // A forma mais segura para garantir DD/MM/AAAA de uma string AAAA-MM-DD é o split:
+      if (typeof data === 'string' && data.includes('-')) {
+        const partes = data.split('T')[0].split('-');
+        if (partes.length === 3) {
+          return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+      }
+      
+      const dia = String(d.getDate()).padStart(2, "0");
+      const mes = String(d.getMonth() + 1).padStart(2, "0");
+      const ano = d.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    }
 
-    alert('Salvo com sucesso!');
-    // opcional: form.reset();
-    // document.getElementById('func_id').value = '';
-  } catch (err) {
-    console.error(err);
-    alert('Erro ao salvar: ' + (err.message || err));
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Salvar';
+    return data;
   }
-};
 
+  function limparForm() {
+    form.reset();
+    idInput.value = "";
+  }
 
-document.getElementById('btn_delete').addEventListener('click', async () => {
-  const id = document.getElementById('func_id').value;
-  if (!id) return alert('Selecione um funcionário');
-  if (!confirm('Deseja excluir este funcionário?')) return;
+  async function carregarCargos() {
+    const res = await fetch(API_CARGOS);
+    const cargos = await res.json();
 
-  const btn = document.getElementById('btn_delete');
-  btn.disabled = true;
-  btn.textContent = 'Excluindo...';
+    cargoSelect.innerHTML = `<option value="">Selecione</option>`;
+    cargos.forEach(c => {
+      cargoSelect.innerHTML += `<option value="${c.id}">${c.nome}</option>`;
+    });
+  }
 
-  try {
-    const res = await fetch(`${API_URL}/funcionarios/${id}`, { method: 'DELETE' });
-    const data = await res.json().catch(() => ({}));
+  async function listarFuncionarios() {
+    const res = await fetch(
+      `${API_FUNC}?nome=${encodeURIComponent(searchNome.value)}&cpf=${encodeURIComponent(searchCpf.value)}`
+    );
 
-    if (!res.ok) {
-      alert(data.erro || data.mensagem || 'Erro ao excluir funcionário');
+    const lista = await res.json();
+    FUNCIONARIOS_CACHE = Array.isArray(lista) ? lista : [];
+    tabelaBody.innerHTML = "";
+
+    if (FUNCIONARIOS_CACHE.length === 0) {
+      tabelaBody.innerHTML = `
+        <tr>
+          <td colspan="9" class="sem-dados" style="text-align:center;">Nenhum funcionário encontrado.</td>
+        </tr>
+      `;
       return;
     }
 
-    alert(data.mensagem || 'Funcionário excluído com sucesso.');
-    form.reset();
+    FUNCIONARIOS_CACHE.forEach(f => {
+      const tr = document.createElement("tr");
 
-    // Recarrega a lista com os filtros atuais
-    const nome = (searchNome && searchNome.value) ? searchNome.value : '';
-    const cpf = (searchCpf && searchCpf.value) ? searchCpf.value : '';
-    const funcs = await fetchFuncionarios(nome, cpf);
-    renderFuncionarios(funcs);
+      tr.innerHTML = `
+        <td>${f.id}</td>
+        <td>${f.nome}</td>
+        <td>${formatarData(f.data_nascimento)}</td>
+        <td>${f.endereco || "-"}</td>
+        <td>${f.cpf}</td>
+        <td>${f.email || "-"}</td>
+        <td>${f.telefone || "-"}</td>
+        <td>${f.cargo_nome || "-"}</td>
+        <td class="acoes text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            title="Editar"
+            onclick="editarFuncionario(${f.id})"
+          >
+            ✏️
+          </button>
 
-  } catch (err) {
-    console.error('Erro ao excluir funcionário:', err);
-    alert('Erro de rede ao excluir funcionário: ' + (err.message || err));
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Excluir';
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            title="Excluir"
+            onclick="excluirFuncionario(${f.id})"
+          >
+            🗑️
+          </button>
+        </td>
+      `;
+
+      tabelaBody.appendChild(tr);
+    });
   }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const payload = {
+      nome: nome.value.trim(),
+      cpf: cpf.value.trim(),
+      data_nascimento: dataNascimento.value || null,
+      endereco: endereco.value.trim(),
+      email: email.value.trim(),
+      telefone: telefone.value.trim(),
+      cargo_id: cargoSelect.value || null
+    };
+
+    const id = idInput.value;
+    const method = id ? "PUT" : "POST";
+    const url = id ? `${API_FUNC}/${id}` : API_FUNC;
+
+    await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    alert("Funcionário salvo com sucesso!");
+    limparForm();
+    listarFuncionarios();
+  });
+
+  btnSearch.addEventListener("click", listarFuncionarios);
+  btnNew.addEventListener("click", limparForm);
+
+  carregarCargos();
+  listarFuncionarios();
 });
 
+/* =========================
+   EDITAR FUNCIONÁRIO (CACHE)
+========================= */
+window.editarFuncionario = function (id) {
+  const f = FUNCIONARIOS_CACHE.find(item => item.id === id);
+  if (!f) {
+    alert("Funcionário não encontrado");
+    return;
+  }
 
-// inicial
-loadCargosIntoSelect();
-btnSearch.click();
+  document.getElementById("func_id").value = f.id;
+  document.getElementById("nome").value = f.nome || "";
+  document.getElementById("cpf").value = f.cpf || "";
+  
+  // Formatar data para o input date (AAAA-MM-DD)
+  if (f.data_nascimento) {
+    // Se a data vier no formato DD/MM/AAAA, precisamos converter para AAAA-MM-DD para o input type="date"
+    if (f.data_nascimento.includes('/')) {
+      const partes = f.data_nascimento.split('/');
+      if (partes.length === 3) {
+        document.getElementById("data_nascimento").value = `${partes[2]}-${partes[1]}-${partes[0]}`;
+      }
+    } else {
+      // Se já vier no formato AAAA-MM-DD ou ISO
+      document.getElementById("data_nascimento").value = f.data_nascimento.split("T")[0];
+    }
+  } else {
+    document.getElementById("data_nascimento").value = "";
+  }
+  
+  document.getElementById("endereco").value = f.endereco || "";
+  document.getElementById("email").value = f.email || "";
+  document.getElementById("telefone").value = f.telefone || "";
+  document.getElementById("cargo_id").value = f.cargo_id || "";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+/* =========================
+   EXCLUIR FUNCIONÁRIO
+========================= */
+window.excluirFuncionario = async function (id) {
+  if (!confirm("Deseja excluir este funcionário?")) return;
+
+  await fetch(`${API_URL}/funcionarios/${id}`, { method: "DELETE" });
+  listarFuncionarios();
+};

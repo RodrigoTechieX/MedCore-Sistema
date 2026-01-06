@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css"/>
+
+  <title>MedCore — Auditoria</title>
+
+  <style>
+    .filtros {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .filtros input,
+    .filtros select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5f5;
+      background: #f8fafc;
+      color: #0f172a;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .filtros button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(90deg, #4f46e5, #06b6d4);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+
+    .btn-danger:active {
+      transform: scale(0.95);
+    }
+
+    .btn-danger.selecionado {
+      background: #f97316;
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .acao-INSERT { color: #22c55e; font-weight: 600; }
+    .acao-UPDATE { color: #eab308; font-weight: 600; }
+    .acao-DELETE { color: #ef4444; font-weight: 600; }
+
+    table input[type="checkbox"] {
+      transform: scale(1.2);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .acoes-header {
+      text-align: center;
+      width: 60px;
+      vertical-align: middle;
+    }
+
+    .acoes-topo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+    }
+
+    .acoes-cell {
+      text-align: center;
+      vertical-align: middle;
+      padding: 12px 0;
+    }
+
+    .sem-dados {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-style: italic;
+    }
+
+        /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="container header">
+  <div class="brand">MedCore <span class="sub">Sistema</span></div>
+  <button id="nav-toggle">☰</button>
+
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="cargo.html">Cadastro de Cargos</a>
+    <a href="funcionario.html">Cadastro de Funcionários</a>
+    <a href="paciente.html">Cadastro de Pacientes</a>
+    <a href="consulta.html">Consultas</a>
+    <a href="auditoria.html" class="active">Auditoria</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <a class="small" href="../index.html">← Voltar</a>
+
+  <h1>Auditoria do Sistema</h1>
+  <p>Registro completo de ações realizadas no sistema.</p>
+
+  <!-- FILTROS -->
+  <section class="card">
+    <h2>Filtros</h2>
+
+    <div class="filtros">
+      <input type="date" id="filtroData">
+
+      <select id="modulo">
+        <option value="">Todos os módulos</option>
+        <option value="Cargos">Cargos</option>
+        <option value="Funcionários">Funcionários</option>
+        <option value="Pacientes">Pacientes</option>
+        <option value="Consultas">Consultas</option>
+      </select>
+
+      <select id="filtroAcao">
+        <option value="">Todas as ações</option>
+        <option value="INSERT">ADICIONADO</option>
+        <option value="UPDATE">ATUALIZADO</option>
+        <option value="DELETE">EXCLUÍDO</option>
+      </select>
+
+      <input type="text" id="usuario" placeholder="Usuário">
+      <button onclick="aplicarFiltros()">Filtrar</button>
+    </div>
+  </section>
+
+  <!-- TABELA -->
+  <section class="card" style="margin-top:20px;">
+    <h2>Registros</h2>
+
+    <div class="table-wrapper card" style="padding:0;margin-top:10px;">
+      <table id="tabela_auditoria">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data e Hora</th>
+            <th>Usuário</th>
+            <th>Módulo</th>
+            <th>Ação</th>
+            <th>Detalhes</th>
+            <th class="acoes-header">
+              <div class="acoes-topo">
+                <button class="btn-danger" id="btnExcluirAuditoria">🗑</button>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="footer">
+          © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+  </footer>
+
+</main>
+
+<script src="../js/nav.js"></script>
+<script src="../js/config.js"></script>
+
+<script>
+  let auditoriaOriginal = []
+  let cliquesLixeira = 0
+  let timeoutLixeira = null
+  let lastClickTime = 0
+
+  function traduzirAcao(acao) {
+    return { INSERT: 'ADICIONADO', UPDATE: 'ATUALIZADO', DELETE: 'EXCLUÍDO' }[acao] || acao
+  }
+
+  function formatarDataHora(dataHora) {
+    if (!dataHora) return "-"
+    const limpo = dataHora.replace(/,+/g, "").trim()
+    const valor = limpo.replace("T", " ")
+    const [data, hora] = valor.split(" ")
+    if (data.includes("-")) {
+      const [ano, mes, dia] = data.split("-")
+      return hora ? `${dia}/${mes}/${ano}, ${hora}` : `${dia}/${mes}/${ano}`
+    }
+    if (data.includes("/")) {
+      return hora ? `${data}, ${hora}` : data
+    }
+    return dataHora
+  }
+
+  function carregarDados() {
+    fetch(`${API_URL}/auditoria`)
+      .then(r => r.json())
+      .then(dados => {
+        auditoriaOriginal = dados
+        renderizarTabela(dados)
+      })
+      .catch(err => {
+        console.error("Erro ao carregar auditoria:", err);
+        renderizarTabela([]); // Garante que mostre a mensagem de vazio em caso de erro
+      })
+  }
+
+  carregarDados();
+
+  function renderizarTabela(dados) {
+    const tbody = document.querySelector('#tabela_auditoria tbody')
+    tbody.innerHTML = ''
+
+    if (!dados || dados.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" class="sem-dados" class="sem-dados">Nenhum registro encontrado.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    dados.forEach(r => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${r.id}</td>
+          <td>${formatarDataHora(r.data_hora)}</td>
+          <td>${r.usuario === 'Sistema' ? 'Admin' : r.usuario}</td>
+          <td>${r.modulo}</td>
+          <td class="acao-${r.acao}">${traduzirAcao(r.acao)}</td>
+          <td>${r.detalhes || ''}</td>
+          <td class="acoes-cell">
+            <input type="checkbox" class="chk-auditoria" value="${r.id}">
+          </td>
+        </tr>
+      `
+    })
+  }
+
+  function aplicarFiltros() {
+    const dataISO = document.getElementById('filtroData').value
+    const modulo = document.getElementById('modulo').value
+    const acao = document.getElementById('filtroAcao').value
+    const usuario = document.getElementById('usuario').value.toLowerCase()
+    let dataFiltroBR = ""
+    if (dataISO) {
+      const [ano, mes, dia] = dataISO.split("-")
+      dataFiltroBR = `${dia}/${mes}/${ano}`
+    }
+    const filtrado = auditoriaOriginal.filter(r => {
+      const dataTabela = formatarDataHora(r.data_hora).split(",")[0]
+      if (dataFiltroBR && dataTabela !== dataFiltroBR) return false
+      if (modulo && r.modulo !== modulo) return false
+      if (acao && r.acao !== acao) return false
+      if (usuario && !r.usuario.toLowerCase().includes(usuario)) return false
+      return true
+    })
+    renderizarTabela(filtrado)
+  }
+
+  const btnExcluir = document.getElementById('btnExcluirAuditoria');
+
+  btnExcluir.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const currentTime = new Date().getTime();
+    const timeDiff = currentTime - lastClickTime;
+    lastClickTime = currentTime;
+
+    const btnLixeira = this;
+    const checkboxes = document.querySelectorAll('.chk-auditoria');
+    const selecionados = Array.from(checkboxes).filter(chk => chk.checked);
+
+    if (timeDiff < 300 && cliquesLixeira === 1) {
+      cliquesLixeira = 2;
+      if (timeoutLixeira) clearTimeout(timeoutLixeira);
+      checkboxes.forEach(chk => chk.checked = true);
+      btnLixeira.classList.add('selecionado');
+      return;
+    }
+
+    if (cliquesLixeira === 0) {
+      cliquesLixeira = 1;
+      timeoutLixeira = setTimeout(() => {
+        if (cliquesLixeira === 1) {
+          const atuaisSelecionados = Array.from(document.querySelectorAll('.chk-auditoria')).filter(chk => chk.checked);
+          if (atuaisSelecionados.length === 0) {
+            alert("Ao menos selecione um registro para excluir");
+          } else {
+            excluirSelecionados(atuaisSelecionados);
+          }
+          cliquesLixeira = 0;
+        }
+      }, 300);
+    } 
+    else if (cliquesLixeira === 2) {
+      const todosSelecionados = Array.from(checkboxes).filter(chk => chk.checked);
+      if (todosSelecionados.length > 0) {
+        excluirSelecionados(todosSelecionados);
+      }
+      resetarLixeira();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    const btnLixeira = document.getElementById('btnExcluirAuditoria');
+    const tabela = document.getElementById('tabela_auditoria');
+    if (!btnLixeira.contains(e.target) && !tabela.contains(e.target)) {
+      resetarLixeira();
+    }
+  });
+
+  function resetarLixeira() {
+    cliquesLixeira = 0;
+    lastClickTime = 0;
+    if (timeoutLixeira) clearTimeout(timeoutLixeira);
+    const btnLixeira = document.getElementById('btnExcluirAuditoria');
+    btnLixeira.classList.remove('selecionado');
+    const checkboxes = document.querySelectorAll('.chk-auditoria');
+    checkboxes.forEach(chk => chk.checked = false);
+  }
+
+  async function excluirSelecionados(checkboxes) {
+    const ids = checkboxes.map(chk => chk.value);
+    if (!confirm(`Deseja realmente excluir ${ids.length} registro(s)?`)) {
+      cliquesLixeira = 0;
+      return;
+    }
+    let sucessos = 0;
+    let erros = 0;
+    for (const id of ids) {
+      try {
+        const response = await fetch(`${API_URL}/auditoria/${id}`, { 
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) sucessos++;
+        else erros++;
+      } catch (err) {
+        erros++;
+      }
+    }
+    if (sucessos > 0) {
+      alert(`${sucessos} registro(s) excluído(s) com sucesso!`);
+      carregarDados();
+    }
+    if (erros > 0) {
+      alert(`Erro ao excluir ${erros} registro(s).`);
+    }
+    resetarLixeira();
+  }
+</script>
+
+</body>
+</html>

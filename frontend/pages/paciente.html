@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <title>MedCore — Pacientes </title>
+      <style>
+    .sem-dados {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-style: italic;
+    }
+
+        /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+  </style>
+  </head>
+
+  <body>
+    <header class="container header">
+      <div class="brand">MedCore  <span class="sub">Sistema</span></div>
+      <button id="nav-toggle" aria-label="Abrir menu">☰</button>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="../index.html">Home</a>
+        <a href="cargo.html">Cadastro de Cargos</a>
+        <a href="funcionario.html">Cadastro de Funcionários</a>
+        <a href="paciente.html"class="active">Cadastro de Pacientes</a>
+        <a href="consulta.html">Consultas</a>
+        <a href="Auditoria.html">Auditoria</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <a class="small" href="../index.html">← Voltar</a>
+      <h1>Pacientes</h1>
+
+      <!-- ===== CADASTRO DE PACIENTE ===== -->
+      <section class="card">
+        <h2>Cadastro de Paciente</h2>
+
+        <form id="formPaciente">
+          <input type="hidden" id="id" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome*</label>
+              <input id="nome" type="text" required />
+            </div>
+
+            <div class="form-group">
+              <label for="cpf">CPF*</label>
+              <input id="cpf" type="text" required />
+            </div>
+
+            <div class="form-group">
+              <label for="nascimento">Data de Nascimento</label>
+              <input id="nascimento" type="date" />
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input id="telefone" type="text" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input id="email" type="email" />
+            </div>
+
+            <!-- Dados da consulta -->
+            <div class="form-group">
+              <label for="consulta">Consulta*</label>
+              <select id="consulta" required>
+                <option value="Clínico Geral">Clínico Geral</option>
+                <option value="Pediatria">Pediatria</option>
+                <option value="Ginecologia">Ginecologia</option>
+                <option value="Cardiologia">Cardiologia</option>
+                <option value="Ortopedia">Ortopedia</option>
+                <option value="Dermatologia">Dermatologia</option>
+                <option value="Endocrinologia">Endocrinologia</option>
+                <option value="Gastroenterologia">Gastroenterologia</option>
+                <option value="Neurologia">Neurologia</option>
+                <option value="Oftalmologia">Oftalmologia</option>
+                <option value="Otorrinolaringologia">Otorrinolaringologia</option>
+                <option value="Psicologia">Psicologia</option>
+                <option value="Psiquiatria">Psiquiatria</option>
+                <option value="Nutrição">Nutrição</option>
+                <option value="Fisioterapia">Fisioterapia</option>
+                <option value="Urologia">Urologia</option>
+                <option value="Reumatologia">Reumatologia</option>
+                <option value="Hematologia">Hematologia</option>
+                <option value="Pneumologia">Pneumologia</option>
+                <option value="Nefrologia">Nefrologia</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="data_consulta">Data da Consulta*</label>
+              <input id="data_consulta" type="date" required />
+            </div>
+
+            <div class="form-group">
+              <label for="hora_consulta">Hora da Consulta*</label>
+              <input
+                id="hora_consulta"
+                type="text"
+                placeholder="HH:MM"
+                maxlength="5"
+                required
+              />
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button class="btn btn-primary" type="submit">Salvar</button>
+            <button class="btn btn-secondary" type="reset" id="btn_cancel">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== BUSCA + TABELA (IGUAL FUNCIONÁRIOS) ===== -->
+      <section class="card">
+        <div class="search-bar">
+          <input id="search_nome" type="text" placeholder="Pesquisar por nome..." />
+          <input id="search_cpf" type="text" placeholder="Pesquisar por CPF..." />
+          <button class="btn btn-secondary" id="btn_search">Pesquisar</button>
+          <button class="btn btn-primary" id="btn_new">Novo</button>
+        </div>
+
+        <div class="table-wrapper card" style="padding:0;">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Data de Nascimento</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+
+            <tbody id="listaPacientes">
+              <!-- preenchido via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="footer">
+              © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+      </footer>
+    </main>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/paciente.js"></script>
+  </body>
+</html>

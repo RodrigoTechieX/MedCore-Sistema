@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <title>MedCore — Consultas</title>
+    <style>
+                /* Estilo adicional para o link do footer */
+    .footer a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #6366f1; /* Cor de destaque ao passar o mouse */
+      text-decoration: underline;
+    }
+
+
+    </style>
+  </head>
+
+  <body>
+    <header class="container header">
+      <div class="brand">MedCore <span class="sub">Sistema</span></div>
+      <button id="nav-toggle" aria-label="Abrir menu">☰</button>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="../index.html">Home</a>
+        <a href="cargo.html">Cadastro de Cargos</a>
+        <a href="funcionario.html">Cadastro de Funcionários</a>
+        <a href="paciente.html">Cadastro de Pacientes</a>
+        <a href="consulta.html" class="active">Consultas</a>
+        <a href="Auditoria.html">Auditoria</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <a class="small" href="../index.html">← Voltar</a>
+      <h1>Consultas</h1>
+
+
+      <!-- ===== LISTA DE CONSULTAS ===== -->
+      <section class="card">
+        <h2>Consultas Cadastradas</h2>
+
+        <!-- Barra de Pesquisa Adicionada -->
+        <div class="search-bar">
+          <input id="search_nome" type="text" placeholder="Pesquisar por nome do paciente..." />
+          <input id="search_consulta" type="text" placeholder="Pesquisar por tipo de consulta..." />
+          <button class="btn btn-secondary" id="btn_search">Pesquisar</button>
+        </div>
+
+        <div class="table-wrapper card" style="padding:0;">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Paciente</th>
+                <th>Consulta</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="listaConsultas">
+              <!-- preenchido via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="footer">
+              © 2025 MedCore — Sistema desenvolvido por <a href="https://www.linkedin.com/in/rodrigo-ferreira-325527272/" target="_blank" rel="noopener noreferrer">Rodrigo Ferreira</a>
+      </footer>
+    </main>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/consulta.js"></script>
+  </body>
+</html>
