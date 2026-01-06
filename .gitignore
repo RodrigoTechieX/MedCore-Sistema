@@ -1,0 +1,57 @@
+# 🐍 Ambientes Virtuais (Garante que ignore em qualquer subpasta)
+venv/
+.venv/
+env/
+ENV/
+bin/
+include/
+lib/
+lib64/
+share/
+pyvenv.cfg
+**/venv/
+**/.venv/
+**/env/
+
+# 🧪 Python Cache e Compilados
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# 🗄️ Banco de Dados e Persistência (Docker)
+db_data/
+mysql_data/
+*.sqlite3
+*.db
+
+# 🔐 Segurança e Variáveis de Ambiente
+.env
+.env.local
+.flaskenv
+*.secret
+*.pem
+*.key
+
+# 📝 Logs
+*.log
+logs/
+
+# 💻 IDEs e Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 🍎 Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# 🐳 Docker
+.docker/
+# (Nota: docker-compose.yml e Dockerfile DEVEM ser enviados)
