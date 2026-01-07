@@ -45,13 +45,17 @@ Você precisa ter o **Docker** e o **Docker Compose** instalados em sua máquina
 ### ▶️ Passo a Passo
 
 #### 1️⃣ Clonar o repositório
+# 1. Clonar o repositório
+```bash
+git clone https://github.com/RodrigoTechieX/MedCore-Sistema.git
+```
+#### 2️⃣ Entrar na pasta correta (respeitando o hífen )
 
 ```bash
-git clone https://github.com/RodrigoTechieX/MedCore-Sistema
 cd MedCoreSistema
 ```
 
-#### 2️⃣ Subir toda a aplicação
+#### 3️⃣ Subir toda a aplicação
 
 Execute o comando abaixo no diretório raiz do projeto. O Docker Compose irá construir as imagens e iniciar os três serviços (DB, API e Frontend).
 
@@ -59,8 +63,13 @@ Execute o comando abaixo no diretório raiz do projeto. O Docker Compose irá co
 docker compose up -d
 ```
 
-Aguarde alguns segundos até que todos os containers estejam prontos.
+#### 4️⃣ Verificar se está rodando
 
+```bash
+docker compose ps
+```
+
+Aguarde alguns segundos até que todos os containers estejam prontos.
 ---
 
 ## 🌐 Acessos do Sistema
