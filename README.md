@@ -120,7 +120,7 @@ Você pode testar as rotas da API diretamente usando ferramentas como cURL, Post
 
 📧 **Email:** [Seu Email]
 
-🔗 **LinkedIn:** [Seu LinkedIn]
+🔗 **LinkedIn:** [[Seu LinkedIn]](https://www.linkedin.com/in/rodrigo-ferreira-325527272/)
 
 ---
 
