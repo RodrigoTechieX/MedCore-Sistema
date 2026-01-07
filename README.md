@@ -118,9 +118,9 @@ Você pode testar as rotas da API diretamente usando ferramentas como cURL, Post
 
 **[Seu Nome Completo]**
 
-📧 **Email:** [Seu Email]
+📧 **Email:** [contato.rodrigo.tech@gmail.com](contato.rodrigo.tech@gmail.com)
 
-🔗 **LinkedIn:** [[Seu LinkedIn]](https://www.linkedin.com/in/rodrigo-ferreira-325527272/)
+🔗 **LinkedIn:** [https://www.linkedin.com/in/rodrigo-ferreira-325527272/](https://www.linkedin.com/in/rodrigo-ferreira-325527272/)
 
 ---
 
