@@ -130,7 +130,7 @@ Você pode testar as rotas da API diretamente usando ferramentas como cURL, Post
 
 ## 👨‍💻 Autor
 
-**[Seu Nome Completo]**
+**Rodrigo Ferreira Da Silva Filho**
 
 📧 **Email:** [contato.rodrigo.tech@gmail.com](contato.rodrigo.tech@gmail.com)
 
