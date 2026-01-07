@@ -56,7 +56,7 @@ git clone https://github.com/RodrigoTechieX/MedCore-Sistema.git
 cd MedCoreSistema
 ```
 
-#### 3️⃣ Lembre de antes executar o comando do passo 4 o Docker desktop deve estar aberto para funcionar!
+#### 3️⃣ Lembre que o Docker desktop deve estar aberto antes de executar o comando do passo 4 !
 
 
 #### 4️⃣ Subir toda a aplicação
