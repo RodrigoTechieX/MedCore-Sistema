@@ -47,7 +47,7 @@ Você precisa ter o **Docker** e o **Docker Compose** instalados em sua máquina
 #### 1️⃣ Clonar o repositório
 
 ```bash
-git clone [SEU_LINK_DO_REPOSITORIO]
+git clone https://github.com/RodrigoTechieX/MedCore-Sistema
 cd MedCoreSistema
 ```
 
